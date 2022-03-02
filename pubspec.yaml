@@ -97,6 +97,9 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
   fonts:
-     - family: PressStart2P
-       fonts:
-         - asset: assets/PressStart2P-vaV7.ttf
+    - family: PressStart2P
+      fonts:
+        - asset: assets/1st-sortie.ttf
+    - family: gamegirl
+      fonts:
+        - asset: assets/gamegirl-classic.ttf

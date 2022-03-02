@@ -4,6 +4,8 @@ import 'package:flame/flame.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
+
 class NumberPanel extends PositionComponent with Tappable, Hoverable {
   static const int lastIndex = 15;
   static const int panelWidth = 4;
@@ -23,7 +25,7 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
   PanelPosition panelPosition = PanelPosition();
 
   NumberPanel(this.label, this.onTapCallback) {
-    sprite = Sprite(Flame.images.fromCache('panel.png'));
+    sprite = Sprite(Flame.images.fromCache(ImagePath.panel));
     size = Vector2.all(defaultSize);
 
     panelPosition.x = label % panelWidth;
@@ -109,6 +111,7 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
     _moveEffect = MoveEffect.to(targetPosition,
         EffectController(duration: 0.08, curve: Curves.easeOut));
     add(_moveEffect!);
+    tapEffect(false);
   }
 
   void tapEffect(bool tapped) {
@@ -163,5 +166,5 @@ class PanelPosition {
   }
 
   @override
-  int get hashCode => super.hashCode;
+  int get hashCode => x * 4 + y;
 }

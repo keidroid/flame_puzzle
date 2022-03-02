@@ -10,18 +10,20 @@ void main() async {
   await Flame.device.fullScreen();
   await Flame.device.setLandscape();
 
-  runApp(
-    MaterialApp(
-      home: Container(
-          color: Colors.black,
-          child: FittedBox(
-              alignment: Alignment.center,
-              fit: BoxFit.fitHeight,
-              child: ClipRect(
-                  child: SizedBox(
-                      width: 160,
-                      height: 144,
-                      child: GameWidget(game: MyGame()))))),
-    ),
-  );
+  runApp(MaterialApp(
+    home: Container(
+        color: Colors.black,
+        child:
+            Row(crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
+          Expanded(
+              child: FittedBox(
+                  alignment: Alignment.center,
+                  fit: BoxFit.fitHeight,
+                  child: ClipRect(
+                      child: SizedBox(
+                          width: 160,
+                          height: 144,
+                          child: GameWidget(game: MyGame()))))),
+        ])),
+  ));
 }
