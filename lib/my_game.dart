@@ -13,7 +13,7 @@ import 'background.dart';
 
 @mustCallSuper
 class MyGame extends FlameGame
-    with KeyboardEvents, HasTappables, MouseMovementDetector {
+    with KeyboardEvents, HasTappables, HasHoverables {
   static const int shuffleCount = 10;
 
   Random random = Random();
@@ -160,11 +160,6 @@ class MyGame extends FlameGame
         panelRight(diff: space.x - tapped.x);
       }
     }
-  }
-
-  @override
-  void onMouseMove(PointerHoverInfo info) {
-    //Logger.d("onMouseMove: (${info.eventPosition.game.x}, ${info.eventPosition.game.y}");
   }
 
   void shufflePanels() {

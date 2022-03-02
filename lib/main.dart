@@ -10,10 +10,10 @@ void main() async {
   await Flame.device.fullScreen();
   await Flame.device.setLandscape();
 
-  runApp(MaterialApp(
-    home: Container(
-      color: Colors.black,
-      child: Expanded(
+  runApp(
+    MaterialApp(
+      home: Container(
+          color: Colors.black,
           child: FittedBox(
               alignment: Alignment.center,
               fit: BoxFit.fitHeight,
@@ -23,5 +23,5 @@ void main() async {
                       height: 144,
                       child: GameWidget(game: MyGame()))))),
     ),
-  ));
+  );
 }

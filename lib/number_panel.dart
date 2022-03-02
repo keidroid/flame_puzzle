@@ -4,7 +4,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 
-class NumberPanel extends PositionComponent with Tappable {
+class NumberPanel extends PositionComponent with Tappable, Hoverable {
   static const int lastIndex = 15;
   static const int panelWidth = 4;
 
@@ -131,6 +131,18 @@ class NumberPanel extends PositionComponent with Tappable {
   bool checkCorrectPosition() {
     return (panelPosition.x == label % panelWidth) &&
         (panelPosition.y == label ~/ panelWidth);
+  }
+
+  @override
+  bool onHoverEnter(PointerHoverInfo info) {
+    tapEffect(true);
+    return true;
+  }
+
+  @override
+  bool onHoverLeave(PointerHoverInfo info) {
+    tapEffect(false);
+    return true;
   }
 }
 
