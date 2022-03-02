@@ -18,8 +18,7 @@ class NumberPanel extends PositionComponent with Tappable {
   late Sprite sprite;
 
   MoveEffect? _moveEffect;
-
-  ScaleEffect? _scaleEffect;
+  ScaleEffect? _tapEffect;
 
   PanelPosition panelPosition = PanelPosition();
 
@@ -55,20 +54,20 @@ class NumberPanel extends PositionComponent with Tappable {
 
   @override
   bool onTapUp(TapUpInfo info) {
-    scaleEffect(false);
+    tapEffect(false);
     onTapCallback(label);
     return true;
   }
 
   @override
   bool onTapDown(TapDownInfo info) {
-    scaleEffect(true);
+    tapEffect(true);
     return true;
   }
 
   @override
   bool onTapCancel() {
-    scaleEffect(false);
+    tapEffect(false);
     onTapCallback(label);
     return true;
   }
@@ -112,17 +111,17 @@ class NumberPanel extends PositionComponent with Tappable {
     add(_moveEffect!);
   }
 
-  void scaleEffect(bool isTrue) {
+  void tapEffect(bool tapped) {
     // set to end current animation
-    if (_scaleEffect != null) {
-      _scaleEffect?.controller.setToEnd();
-      remove(_scaleEffect!);
+    if (_tapEffect != null) {
+      _tapEffect?.controller.setToEnd();
+      remove(_tapEffect!);
     }
 
-    Vector2 targetScale = isTrue ? Vector2(0.95, 0.95) : Vector2(1.0, 1.0);
-    _scaleEffect = ScaleEffect.to(
+    Vector2 targetScale = tapped ? Vector2(0.95, 0.95) : Vector2(1.0, 1.0);
+    _tapEffect = ScaleEffect.to(
         targetScale, EffectController(duration: 0.08, curve: Curves.easeOut));
-    add(_scaleEffect!);
+    add(_tapEffect!);
   }
 
   bool isSamePosition(NumberPanel panel) {
