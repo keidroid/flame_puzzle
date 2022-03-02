@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'background.dart';
-import 'logger.dart';
 
 @mustCallSuper
 class MyGame extends FlameGame
@@ -23,7 +22,6 @@ class MyGame extends FlameGame
 
   late Background background;
   late List<NumberPanel> numberPanels = <NumberPanel>[];
-  late double tileSize;
 
   static const String music = 'GB-Action-B03-2.mp3';
   static const String soundCursor = 'cursor.wav';
@@ -38,9 +36,6 @@ class MyGame extends FlameGame
 
     background = Background();
     add(background);
-
-    tileSize = size.x / 8;
-    Logger.d("tilesize: $tileSize");
 
     for (var i = 0; i < 16; i++) {
       numberPanels.add(NumberPanel(i, onTapPanel));
