@@ -17,11 +17,23 @@ class ImagePath {
 }
 
 class TextConfig {
-  static const textStyle = TextStyle(
+  static const textC1Style = TextStyle(
     fontSize: 8.0,
-    color: Color(0xFF121212),
+    color: Colors.c1,
     fontFamily: 'gamegirl',
   );
+  static const textC3Style = TextStyle(
+    fontSize: 8.0,
+    color: Colors.c3,
+    fontFamily: 'gamegirl',
+  );
+}
+
+class Colors {
+  static const Color c0 = Color(0xFFE2DFB1);
+  static const Color c1 = Color(0xFFB0B87F);
+  static const Color c2 = Color(0xFF73825C);
+  static const Color c3 = Color(0xFF444429);
 }
 
 enum Scene { title, game }
