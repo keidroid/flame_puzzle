@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 
 class TimerText extends PositionComponent {
-  static const double maxSeconds = 3600 - 1;
+  static const double maxSeconds = 3599.99;
 
   bool isPLaying = false;
 
