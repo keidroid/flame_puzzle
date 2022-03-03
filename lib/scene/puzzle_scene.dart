@@ -5,15 +5,17 @@ import 'package:flame_audio/flame_audio.dart';
 
 import '../constants.dart';
 import '../number_panel.dart';
+import '../timer_text.dart';
 
 class PuzzleScene extends Component {
-  static const int shuffleCount = 10;
+  static const int shuffleCount = 0;
 
   StateChangeCallback changeSceneCallback;
 
   Random random = Random();
 
   late List<NumberPanel> numberPanels = <NumberPanel>[];
+  late TimerText _timerText;
 
   PuzzleScene(this.changeSceneCallback);
 
@@ -27,12 +29,18 @@ class PuzzleScene extends Component {
       numberPanels.add(NumberPanel(i, onTapPanel));
       add(numberPanels[i]);
     }
+
+    _timerText = TimerText()..position = Vector2(8, 120);
+
+    add(_timerText);
+
     shufflePanels();
 
     FlameAudio.bgm.play(AudioPath.bgm);
   }
 
   void panelUp({int diff = 1}) {
+    _timerText.start();
     for (int i = 0; i < diff; i++) {
       numberPanels.last.moveDown();
       numberPanels
@@ -44,6 +52,7 @@ class PuzzleScene extends Component {
   }
 
   void panelDown({int diff = 1}) {
+    _timerText.start();
     for (int i = 0; i < diff; i++) {
       numberPanels.last.moveUp();
       numberPanels
@@ -55,6 +64,7 @@ class PuzzleScene extends Component {
   }
 
   void panelLeft({int diff = 1}) {
+    _timerText.start();
     for (int i = 0; i < diff; i++) {
       numberPanels.last.moveRight();
       numberPanels
@@ -66,6 +76,7 @@ class PuzzleScene extends Component {
   }
 
   void panelRight({int diff = 1}) {
+    _timerText.start();
     for (int i = 0; i < diff; i++) {
       numberPanels.last.moveLeft();
       numberPanels
@@ -80,6 +91,7 @@ class PuzzleScene extends Component {
     if (numberPanels.every((element) => element.checkCorrectPosition())) {
       FlameAudio.bgm.stop();
       FlameAudio.play(AudioPath.clear);
+      _timerText.stop();
     }
   }
 
@@ -122,5 +134,16 @@ class PuzzleScene extends Component {
     for (var element in numberPanels) {
       element.updatePosition();
     }
+  }
+
+  void addShadowText(String text, Vector2 position) {
+    add(TextComponent(
+        text: text, textRenderer: TextPaint(style: TextConfig.textC1Style))
+      ..anchor = Anchor.bottomCenter
+      ..position = Vector2(position.x, position.y + 1));
+    add(TextComponent(
+        text: text, textRenderer: TextPaint(style: TextConfig.textC3Style))
+      ..anchor = Anchor.bottomCenter
+      ..position = position);
   }
 }

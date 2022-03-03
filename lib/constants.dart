@@ -17,6 +17,12 @@ class ImagePath {
 }
 
 class TextConfig {
+  static const textC0Style = TextStyle(
+    fontSize: 8.0,
+    color: Colors.c0,
+    fontFamily: 'gamegirl',
+  );
+
   static const textC1Style = TextStyle(
     fontSize: 8.0,
     color: Colors.c1,
@@ -36,6 +42,8 @@ class Colors {
   static const Color c3 = Color(0xFF444429);
 }
 
-enum Scene { title, game }
+enum Scene { title, puzzle }
 
 typedef StateChangeCallback = void Function(Scene, Scene);
+
+enum PuzzleState { start, playing, clear }

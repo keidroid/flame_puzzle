@@ -13,6 +13,8 @@ import 'scene/puzzle_scene.dart';
 @mustCallSuper
 class MyGame extends FlameGame
     with KeyboardEvents, HasTappables, HasHoverables {
+  bool isPlaying = false;
+
   late TitleScene _titleScene;
   late PuzzleScene _puzzleScene;
 
@@ -28,14 +30,16 @@ class MyGame extends FlameGame
     _titleScene = TitleScene(changeStateCallback);
     _puzzleScene = PuzzleScene(changeStateCallback);
 
-    add(_titleScene);
+//    add(_titleScene);
+    // debug
+    add(_puzzleScene);
   }
 
   void changeStateCallback(Scene current, Scene next) {
     if (current == Scene.title) {
       remove(_titleScene);
       add(_puzzleScene);
-    } else if (current == Scene.game) {
+    } else if (current == Scene.puzzle) {
       remove(_puzzleScene);
       add(_titleScene);
     }
@@ -58,7 +62,9 @@ class MyGame extends FlameGame
       } else if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
         _puzzleScene.panelRight();
       } else if (keysPressed.contains(LogicalKeyboardKey.enter) ||
-          keysPressed.contains(LogicalKeyboardKey.space)) {}
+          keysPressed.contains(LogicalKeyboardKey.space)) {
+        changeStateCallback(Scene.title, Scene.puzzle);
+      }
       return KeyEventResult.handled;
     }
     return KeyEventResult.ignored;

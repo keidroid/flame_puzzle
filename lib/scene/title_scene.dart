@@ -35,7 +35,7 @@ class TitleScene extends Component {
       ..position = Vector2(80, 10));
 
     add(TextComponent(
-        text: "Flutter\nSlide Puzzle\nChallenge",
+        text: "Flutter\nSlide Puzzle",
         textRenderer: TextPaint(
             style: const TextStyle(
           fontSize: 24.0,
@@ -43,7 +43,7 @@ class TitleScene extends Component {
           fontFamily: 'PressStart2P',
         )))
       ..anchor = Anchor.center
-      ..position = Vector2(60, 60));
+      ..position = Vector2(60, 40));
 
     addShadowText("PROGRAM BY KEIDROID", Vector2(80, 136));
     addShadowText("SOUND BY OTOLOGIC", Vector2(80, 144));
