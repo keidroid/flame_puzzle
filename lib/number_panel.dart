@@ -25,7 +25,7 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
   PanelPosition panelPosition = PanelPosition();
 
   NumberPanel(this.label, this.onTapCallback) {
-    sprite = Sprite(Flame.images.fromCache(ImagePath.panel));
+    sprite = Sprite(Flame.images.fromCache(ImagePath.one));
     size = Vector2.all(defaultSize);
 
     panelPosition.x = label % panelWidth;
@@ -45,13 +45,13 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
 
     sprite.render(canvas, size: size);
 
-    TextPaint textPaint = TextPaint(
-      style: const TextStyle(
-        fontSize: 8.0,
-        fontFamily: 'PressStart2P',
-      ),
-    );
-    textPaint.render(canvas, "${label + 1}", Vector2(10, 10));
+    // TextPaint textPaint = TextPaint(
+    //   style: const TextStyle(
+    //     fontSize: 8.0,
+    //     fontFamily: 'PressStart2P',
+    //   ),
+    // );
+    // textPaint.render(canvas, "${label + 1}", Vector2(10, 10));
   }
 
   @override
@@ -75,8 +75,8 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
   }
 
   void updatePosition() {
-    position = Vector2(size.x * 0.5 + panelPosition.x * size.x,
-        size.y * 0.5 + panelPosition.y * size.y);
+    position = Vector2(8 + size.x * 0.5 + panelPosition.x * size.x,
+        8 + size.y * 0.5 + panelPosition.y * size.y);
   }
 
   void moveUp() {
@@ -106,8 +106,9 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
       remove(_moveEffect!);
     }
 
-    Vector2 targetPosition = Vector2(size.x * 0.5 + panelPosition.x * size.x,
-        size.y * 0.5 + panelPosition.y * size.y);
+    Vector2 targetPosition = Vector2(
+        8 + size.x * 0.5 + panelPosition.x * size.x,
+        8 + size.y * 0.5 + panelPosition.y * size.y);
     _moveEffect = MoveEffect.to(targetPosition,
         EffectController(duration: 0.08, curve: Curves.easeOut));
     add(_moveEffect!);

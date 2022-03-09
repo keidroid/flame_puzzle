@@ -30,7 +30,7 @@ class PuzzleScene extends Component {
       add(numberPanels[i]);
     }
 
-    _timerText = TimerText()..position = Vector2(8, 120);
+    _timerText = TimerText()..position = Vector2(12, 128);
 
     add(_timerText);
 
@@ -134,16 +134,5 @@ class PuzzleScene extends Component {
     for (var element in numberPanels) {
       element.updatePosition();
     }
-  }
-
-  void addShadowText(String text, Vector2 position) {
-    add(TextComponent(
-        text: text, textRenderer: TextPaint(style: TextConfig.textC1Style))
-      ..anchor = Anchor.bottomCenter
-      ..position = Vector2(position.x, position.y + 1));
-    add(TextComponent(
-        text: text, textRenderer: TextPaint(style: TextConfig.textC3Style))
-      ..anchor = Anchor.bottomCenter
-      ..position = position);
   }
 }

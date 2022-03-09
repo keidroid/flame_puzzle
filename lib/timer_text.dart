@@ -35,15 +35,17 @@ class TimerText extends PositionComponent {
     String minuteStr = (_totalSeconds ~/ 60).toString().padLeft(2, '0');
     // ss.xx
     String secondStr = (_totalSeconds % 60).toStringAsFixed(2).padLeft(5, '0');
-    _textPaint2.render(canvas, "TIME $minuteStr:$secondStr", Vector2(0, 1));
-    _textPaint.render(canvas, "TIME $minuteStr:$secondStr", Vector2(0, 0));
-  }
 
-  void stop() {
-    isPLaying = false;
+    String text = "TIME $minuteStr:$secondStr";
+    _textPaint2.render(canvas, text, Vector2(0, 1));
+    _textPaint.render(canvas, text, Vector2(0, 0));
   }
 
   void start() {
     isPLaying = true;
+  }
+
+  void stop() {
+    isPLaying = false;
   }
 }

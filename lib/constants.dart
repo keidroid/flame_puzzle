@@ -9,29 +9,36 @@ class AudioPath {
 class ImagePath {
   static const String background = 'background.png';
   static const String panel = 'panel.png';
+  static const String one = '1.png';
+
 
   static const all = [
     background,
     panel,
+    one,
   ];
+}
+
+class FontPath {
+  static const String gameGirl = 'gamegirl';
 }
 
 class TextConfig {
   static const textC0Style = TextStyle(
     fontSize: 8.0,
     color: Colors.c0,
-    fontFamily: 'gamegirl',
+    fontFamily: FontPath.gameGirl,
   );
 
   static const textC1Style = TextStyle(
     fontSize: 8.0,
     color: Colors.c1,
-    fontFamily: 'gamegirl',
+    fontFamily: FontPath.gameGirl,
   );
   static const textC3Style = TextStyle(
     fontSize: 8.0,
     color: Colors.c3,
-    fontFamily: 'gamegirl',
+    fontFamily: FontPath.gameGirl,
   );
 }
 
