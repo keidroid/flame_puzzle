@@ -68,12 +68,16 @@ class TitleScene extends GameScene {
         break;
       case GameKeyEvent.left:
       case GameKeyEvent.right:
-        isSound = !isSound;
+        toggleSound();
         break;
       case GameKeyEvent.enter:
         stateChangeCallback(this, isSound);
         break;
     }
+  }
+
+  void toggleSound() {
+    isSound = !isSound;
   }
 
   void addShadowText(String text, Vector2 position) {
