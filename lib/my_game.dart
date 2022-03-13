@@ -4,6 +4,7 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_puzzle/constants.dart';
+import 'package:flame_puzzle/direction.dart';
 import 'package:flame_puzzle/scene/title_scene.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,13 +55,13 @@ class MyGame extends FlameGame
 
     if (isKeyDown) {
       if (keysPressed.contains(LogicalKeyboardKey.arrowUp)) {
-        _puzzleScene.panelUp();
+        _puzzleScene.movePanel(Direction.up);
       } else if (keysPressed.contains(LogicalKeyboardKey.arrowDown)) {
-        _puzzleScene.panelDown();
+        _puzzleScene.movePanel(Direction.down);
       } else if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
-        _puzzleScene.panelLeft();
+        _puzzleScene.movePanel(Direction.left);
       } else if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
-        _puzzleScene.panelRight();
+        _puzzleScene.movePanel(Direction.right);
       } else if (keysPressed.contains(LogicalKeyboardKey.enter) ||
           keysPressed.contains(LogicalKeyboardKey.space)) {
         changeStateCallback(Scene.title, Scene.puzzle);

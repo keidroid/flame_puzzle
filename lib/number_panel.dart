@@ -5,6 +5,7 @@ import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
+import 'direction.dart';
 
 class NumberPanel extends PositionComponent with Tappable, Hoverable {
   static const int lastIndex = 15;
@@ -79,23 +80,20 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
         8 + size.y * 0.5 + panelPosition.y * size.y);
   }
 
-  void moveUp() {
-    panelPosition.y--;
-    moveAnimation();
-  }
-
-  void moveDown() {
-    panelPosition.y++;
-    moveAnimation();
-  }
-
-  void moveLeft() {
-    panelPosition.x--;
-    moveAnimation();
-  }
-
-  void moveRight() {
-    panelPosition.x++;
+  void move(Direction direction) {
+    switch (direction) {
+      case Direction.up:
+        panelPosition.y--;
+        break;
+      case Direction.down:
+        panelPosition.y++;
+        break;
+      case Direction.left:
+        panelPosition.x--;
+        break;
+      case Direction.right:
+        panelPosition.x++;
+    }
     moveAnimation();
   }
 

@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
 
 import '../constants.dart';
+import '../direction.dart';
 import '../number_panel.dart';
 import '../timer_text.dart';
 
@@ -17,7 +18,7 @@ class PuzzleScene extends Component {
   late List<NumberPanel> numberPanels = <NumberPanel>[];
   late TimerText _timerText;
 
-  bool isMute = true;
+  bool isMute = false;
 
   PuzzleScene(this.changeSceneCallback);
 
@@ -49,55 +50,13 @@ class PuzzleScene extends Component {
     }
   }
 
-  void panelUp({int diff = 1}) {
+  void movePanel(Direction direction, {int diff = 1}) {
     _timerText.start();
     for (int i = 0; i < diff; i++) {
-      numberPanels.last.moveDown();
+      numberPanels.last.move(direction.reverse);
       numberPanels
           .firstWhere((element) => element.isSamePosition(numberPanels.last))
-          .moveUp();
-    }
-    if (!isMute) {
-      FlameAudio.audioCache.play(AudioPath.panel);
-    }
-    checkGameClear();
-  }
-
-  void panelDown({int diff = 1}) {
-    _timerText.start();
-    for (int i = 0; i < diff; i++) {
-      numberPanels.last.moveUp();
-      numberPanels
-          .firstWhere((element) => element.isSamePosition(numberPanels.last))
-          .moveDown();
-    }
-    if (!isMute) {
-      FlameAudio.audioCache.play(AudioPath.panel);
-    }
-    checkGameClear();
-  }
-
-  void panelLeft({int diff = 1}) {
-    _timerText.start();
-    for (int i = 0; i < diff; i++) {
-      numberPanels.last.moveRight();
-      numberPanels
-          .firstWhere((element) => element.isSamePosition(numberPanels.last))
-          .moveLeft();
-    }
-    if (!isMute) {
-      FlameAudio.audioCache.play(AudioPath.panel);
-    }
-    checkGameClear();
-  }
-
-  void panelRight({int diff = 1}) {
-    _timerText.start();
-    for (int i = 0; i < diff; i++) {
-      numberPanels.last.moveLeft();
-      numberPanels
-          .firstWhere((element) => element.isSamePosition(numberPanels.last))
-          .moveRight();
+          .move(direction);
     }
     if (!isMute) {
       FlameAudio.audioCache.play(AudioPath.panel);
@@ -123,15 +82,15 @@ class PuzzleScene extends Component {
 
     if (space.x == tapped.x) {
       if (space.y < tapped.y) {
-        panelUp(diff: tapped.y - space.y);
+        movePanel(Direction.up, diff: tapped.y - space.y);
       } else if (space.y > tapped.y) {
-        panelDown(diff: space.y - tapped.y);
+        movePanel(Direction.down, diff: space.y - tapped.y);
       }
     } else if (space.y == tapped.y) {
       if (space.x < tapped.x) {
-        panelLeft(diff: tapped.x - space.x);
+        movePanel(Direction.left, diff: tapped.x - space.x);
       } else if (space.x > tapped.x) {
-        panelRight(diff: space.x - tapped.x);
+        movePanel(Direction.right, diff: space.x - tapped.x);
       }
     }
   }
