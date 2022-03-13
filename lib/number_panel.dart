@@ -15,8 +15,6 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
   final int label;
   final Function(int) onTapCallback;
 
-  bool isMovable = false;
-
   late Sprite sprite;
 
   MoveEffect? _moveEffect;
@@ -25,7 +23,9 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
   PanelPosition panelPosition = PanelPosition();
 
   NumberPanel(this.label, this.onTapCallback) {
-    sprite = Sprite(Flame.images.fromCache(ImagePath.one));
+    sprite = Sprite(Flame.images.fromCache(ImagePath.panel),
+        srcPosition: Vector2(label % 4 * defaultSize, label ~/ 4 * defaultSize),
+        srcSize: Vector2.all(defaultSize));
     size = Vector2.all(defaultSize);
 
     panelPosition.x = label % panelWidth;

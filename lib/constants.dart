@@ -8,12 +8,13 @@ class AudioPath {
 
 class ImagePath {
   static const String background = 'background.png';
+  static const String bird = 'bird.png';
   static const String panel = 'panel.png';
   static const String one = '1.png';
 
-
   static const all = [
     background,
+    bird,
     panel,
     one,
   ];

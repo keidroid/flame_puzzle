@@ -25,6 +25,12 @@ class PuzzleScene extends Component {
 
     add(SpriteComponent(sprite: await Sprite.load(ImagePath.background)));
 
+    SpriteComponent bird =
+        SpriteComponent(sprite: await Sprite.load(ImagePath.bird));
+    bird.position = Vector2(128, 108);
+
+    add(bird);
+
     for (var i = 0; i < 16; i++) {
       numberPanels.add(NumberPanel(i, onTapPanel));
       add(numberPanels[i]);
@@ -47,7 +53,7 @@ class PuzzleScene extends Component {
           .firstWhere((element) => element.isSamePosition(numberPanels.last))
           .moveUp();
     }
-    FlameAudio.play(AudioPath.panel);
+    FlameAudio.audioCache.play(AudioPath.panel);
     checkGameClear();
   }
 
@@ -59,7 +65,7 @@ class PuzzleScene extends Component {
           .firstWhere((element) => element.isSamePosition(numberPanels.last))
           .moveDown();
     }
-    FlameAudio.play(AudioPath.panel);
+    FlameAudio.audioCache.play(AudioPath.panel);
     checkGameClear();
   }
 
@@ -71,7 +77,7 @@ class PuzzleScene extends Component {
           .firstWhere((element) => element.isSamePosition(numberPanels.last))
           .moveLeft();
     }
-    FlameAudio.play(AudioPath.panel);
+    FlameAudio.audioCache.play(AudioPath.panel);
     checkGameClear();
   }
 
@@ -83,7 +89,7 @@ class PuzzleScene extends Component {
           .firstWhere((element) => element.isSamePosition(numberPanels.last))
           .moveRight();
     }
-    FlameAudio.play(AudioPath.panel);
+    FlameAudio.audioCache.play(AudioPath.panel);
     checkGameClear();
   }
 
