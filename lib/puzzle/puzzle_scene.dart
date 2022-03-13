@@ -4,23 +4,22 @@ import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
 
 import '../constants.dart';
-import '../direction.dart';
-import '../number_panel.dart';
-import '../timer_text.dart';
+import '../game_scene.dart';
+import 'direction.dart';
+import 'number_panel.dart';
+import 'panel_position.dart';
+import 'timer_text.dart';
 
-class PuzzleScene extends Component {
+class PuzzleScene extends GameScene {
   static const int shuffleCount = 10;
-
-  StateChangeCallback changeSceneCallback;
 
   Random random = Random();
 
   late List<NumberPanel> numberPanels = <NumberPanel>[];
   late TimerText _timerText;
 
-  bool isMute = false;
-
-  PuzzleScene(this.changeSceneCallback);
+  PuzzleScene(bool isSound, StateChangeCallback stateChangeCallback)
+      : super(isSound, stateChangeCallback);
 
   @override
   Future<void>? onLoad() async {
@@ -45,8 +44,34 @@ class PuzzleScene extends Component {
 
     shufflePanels();
 
-    if (!isMute) {
+    if (isSound) {
       FlameAudio.bgm.play(AudioPath.bgm);
+    }
+  }
+
+  @override
+  void onKeyEvent(GameKeyEvent gameKeyEvent) {
+    super.onKeyEvent(gameKeyEvent);
+
+    switch (gameKeyEvent) {
+      case GameKeyEvent.up:
+        movePanel(Direction.up);
+        break;
+      case GameKeyEvent.down:
+        movePanel(Direction.down);
+        break;
+      case GameKeyEvent.left:
+        movePanel(Direction.left);
+        break;
+      case GameKeyEvent.right:
+        movePanel(Direction.right);
+        break;
+      case GameKeyEvent.enter:
+        if (isSound) {
+          FlameAudio.bgm.stop();
+        }
+        stateChangeCallback(this, isSound);
+        break;
     }
   }
 
@@ -58,7 +83,7 @@ class PuzzleScene extends Component {
           .firstWhere((element) => element.isSamePosition(numberPanels.last))
           .move(direction);
     }
-    if (!isMute) {
+    if (isSound) {
       FlameAudio.audioCache.play(AudioPath.panel);
     }
     checkGameClear();
@@ -66,7 +91,7 @@ class PuzzleScene extends Component {
 
   void checkGameClear() {
     if (numberPanels.every((element) => element.checkCorrectPosition())) {
-      if (!isMute) {
+      if (isSound) {
         FlameAudio.bgm.stop();
         FlameAudio.play(AudioPath.clear);
       }

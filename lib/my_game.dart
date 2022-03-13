@@ -4,20 +4,17 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_puzzle/constants.dart';
-import 'package:flame_puzzle/direction.dart';
-import 'package:flame_puzzle/scene/title_scene.dart';
+import 'package:flame_puzzle/title/title_scene.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'scene/puzzle_scene.dart';
+import 'game_scene.dart';
+import 'puzzle/puzzle_scene.dart';
 
 @mustCallSuper
 class MyGame extends FlameGame
     with KeyboardEvents, HasTappables, HasHoverables {
-  bool isPlaying = false;
-
-  late TitleScene _titleScene;
-  late PuzzleScene _puzzleScene;
+  late GameScene _currentScene;
 
   @override
   Future<void> onLoad() async {
@@ -28,21 +25,20 @@ class MyGame extends FlameGame
     FlameAudio.bgm.initialize();
     await FlameAudio.audioCache.load(AudioPath.panel);
 
-    _titleScene = TitleScene(changeStateCallback);
-    _puzzleScene = PuzzleScene(changeStateCallback);
+    _currentScene = TitleScene(true, stateChangeCallback);
 
-//    add(_titleScene);
-    // debug
-    add(_puzzleScene);
+    add(_currentScene);
   }
 
-  void changeStateCallback(Scene current, Scene next) {
-    if (current == Scene.title) {
-      remove(_titleScene);
-      add(_puzzleScene);
-    } else if (current == Scene.puzzle) {
-      remove(_puzzleScene);
-      add(_titleScene);
+  void stateChangeCallback(GameScene current, bool isSound) {
+    remove(current);
+
+    if (current is TitleScene) {
+      _currentScene = PuzzleScene(isSound, stateChangeCallback);
+      add(_currentScene);
+    } else if (current is PuzzleScene) {
+      _currentScene = TitleScene(isSound, stateChangeCallback);
+      add(_currentScene);
     }
   }
 
@@ -55,16 +51,16 @@ class MyGame extends FlameGame
 
     if (isKeyDown) {
       if (keysPressed.contains(LogicalKeyboardKey.arrowUp)) {
-        _puzzleScene.movePanel(Direction.up);
+        _currentScene.onKeyEvent(GameKeyEvent.up);
       } else if (keysPressed.contains(LogicalKeyboardKey.arrowDown)) {
-        _puzzleScene.movePanel(Direction.down);
+        _currentScene.onKeyEvent(GameKeyEvent.down);
       } else if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
-        _puzzleScene.movePanel(Direction.left);
+        _currentScene.onKeyEvent(GameKeyEvent.left);
       } else if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
-        _puzzleScene.movePanel(Direction.right);
+        _currentScene.onKeyEvent(GameKeyEvent.right);
       } else if (keysPressed.contains(LogicalKeyboardKey.enter) ||
           keysPressed.contains(LogicalKeyboardKey.space)) {
-        changeStateCallback(Scene.title, Scene.puzzle);
+        _currentScene.onKeyEvent(GameKeyEvent.enter);
       }
       return KeyEventResult.handled;
     }

@@ -19,7 +19,7 @@ class ImagePath {
 }
 
 class FontPath {
-  static const String gameGirl = 'gamegirl';
+  static const String gameGirl = 'gameGirl';
 }
 
 class TextConfig {
@@ -47,9 +47,5 @@ class Colors {
   static const Color c2 = Color(0xFF73825C);
   static const Color c3 = Color(0xFF444429);
 }
-
-enum Scene { title, puzzle }
-
-typedef StateChangeCallback = void Function(Scene, Scene);
 
 enum PuzzleState { start, playing, clear }

@@ -4,7 +4,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
+import '../constants.dart';
 import 'direction.dart';
 import 'panel_position.dart';
 
