@@ -13,8 +13,9 @@ void main() async {
   runApp(MaterialApp(
     home: Container(
         color: Colors.black,
+        // CrossAxisAlignment.center: Key event becomes unstable.
         child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(
                   child: FittedBox(
