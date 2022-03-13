@@ -13,12 +13,12 @@ import 'timer_text.dart';
 class PuzzleScene extends GameScene {
   static const int shuffleCount = 10;
 
-  Random random = Random();
-
+  late Random random;
   late List<NumberPanel> numberPanels = <NumberPanel>[];
   late TimerText _timerText;
 
-  PuzzleScene(bool isSound, StateChangeCallback stateChangeCallback)
+  PuzzleScene(
+      this.random, bool isSound, StateChangeCallback stateChangeCallback)
       : super(isSound, stateChangeCallback);
 
   @override

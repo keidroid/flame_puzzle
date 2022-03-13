@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -15,6 +17,7 @@ import 'puzzle/puzzle_scene.dart';
 class MyGame extends FlameGame
     with KeyboardEvents, HasTappables, HasHoverables {
   late GameScene _currentScene;
+  Random random = Random();
 
   @override
   Future<void> onLoad() async {
@@ -34,7 +37,7 @@ class MyGame extends FlameGame
     remove(current);
 
     if (current is TitleScene) {
-      _currentScene = PuzzleScene(isSound, stateChangeCallback);
+      _currentScene = PuzzleScene(random, isSound, stateChangeCallback);
       add(_currentScene);
     } else if (current is PuzzleScene) {
       _currentScene = TitleScene(isSound, stateChangeCallback);
@@ -47,9 +50,7 @@ class MyGame extends FlameGame
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
-    final isKeyDown = event is RawKeyDownEvent;
-
-    if (isKeyDown) {
+    if (event is RawKeyDownEvent) {
       if (keysPressed.contains(LogicalKeyboardKey.arrowUp)) {
         _currentScene.onKeyEvent(GameKeyEvent.up);
       } else if (keysPressed.contains(LogicalKeyboardKey.arrowDown)) {
