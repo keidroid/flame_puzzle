@@ -8,7 +8,7 @@ import '../number_panel.dart';
 import '../timer_text.dart';
 
 class PuzzleScene extends Component {
-  static const int shuffleCount = 0;
+  static const int shuffleCount = 10;
 
   StateChangeCallback changeSceneCallback;
 
@@ -16,6 +16,8 @@ class PuzzleScene extends Component {
 
   late List<NumberPanel> numberPanels = <NumberPanel>[];
   late TimerText _timerText;
+
+  bool isMute = true;
 
   PuzzleScene(this.changeSceneCallback);
 
@@ -36,13 +38,15 @@ class PuzzleScene extends Component {
       add(numberPanels[i]);
     }
 
-    _timerText = TimerText()..position = Vector2(12, 128);
+    _timerText = TimerText()..position = Vector2(12, 132);
 
     add(_timerText);
 
     shufflePanels();
 
-    FlameAudio.bgm.play(AudioPath.bgm);
+    if (!isMute) {
+      FlameAudio.bgm.play(AudioPath.bgm);
+    }
   }
 
   void panelUp({int diff = 1}) {
@@ -53,7 +57,9 @@ class PuzzleScene extends Component {
           .firstWhere((element) => element.isSamePosition(numberPanels.last))
           .moveUp();
     }
-    FlameAudio.audioCache.play(AudioPath.panel);
+    if (!isMute) {
+      FlameAudio.audioCache.play(AudioPath.panel);
+    }
     checkGameClear();
   }
 
@@ -65,7 +71,9 @@ class PuzzleScene extends Component {
           .firstWhere((element) => element.isSamePosition(numberPanels.last))
           .moveDown();
     }
-    FlameAudio.audioCache.play(AudioPath.panel);
+    if (!isMute) {
+      FlameAudio.audioCache.play(AudioPath.panel);
+    }
     checkGameClear();
   }
 
@@ -77,7 +85,9 @@ class PuzzleScene extends Component {
           .firstWhere((element) => element.isSamePosition(numberPanels.last))
           .moveLeft();
     }
-    FlameAudio.audioCache.play(AudioPath.panel);
+    if (!isMute) {
+      FlameAudio.audioCache.play(AudioPath.panel);
+    }
     checkGameClear();
   }
 
@@ -89,14 +99,18 @@ class PuzzleScene extends Component {
           .firstWhere((element) => element.isSamePosition(numberPanels.last))
           .moveRight();
     }
-    FlameAudio.audioCache.play(AudioPath.panel);
+    if (!isMute) {
+      FlameAudio.audioCache.play(AudioPath.panel);
+    }
     checkGameClear();
   }
 
   void checkGameClear() {
     if (numberPanels.every((element) => element.checkCorrectPosition())) {
-      FlameAudio.bgm.stop();
-      FlameAudio.play(AudioPath.clear);
+      if (!isMute) {
+        FlameAudio.bgm.stop();
+        FlameAudio.play(AudioPath.clear);
+      }
       _timerText.stop();
     }
   }
