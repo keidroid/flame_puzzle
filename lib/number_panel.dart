@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'constants.dart';
 import 'direction.dart';
+import 'panel_position.dart';
 
 class NumberPanel extends PositionComponent with Tappable, Hoverable {
   static const int lastIndex = 15;
@@ -43,16 +44,7 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
     if (label == lastIndex) {
       return;
     }
-
     sprite.render(canvas, size: size);
-
-    // TextPaint textPaint = TextPaint(
-    //   style: const TextStyle(
-    //     fontSize: 8.0,
-    //     fontFamily: 'PressStart2P',
-    //   ),
-    // );
-    // textPaint.render(canvas, "${label + 1}", Vector2(10, 10));
   }
 
   @override
@@ -146,24 +138,4 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
     tapEffect(false);
     return true;
   }
-}
-
-class PanelPosition {
-  int x = 0;
-  int y = 0;
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is PanelPosition) {
-      return x == other.x && y == other.y;
-    } else {
-      return false;
-    }
-  }
-
-  @override
-  int get hashCode => x * 4 + y;
 }
