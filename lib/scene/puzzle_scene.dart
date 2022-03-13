@@ -29,7 +29,7 @@ class PuzzleScene extends Component {
 
     SpriteComponent bird =
         SpriteComponent(sprite: await Sprite.load(ImagePath.bird));
-    bird.position = Vector2(128, 108);
+    bird.position = Vector2(132, 96);
 
     add(bird);
 
