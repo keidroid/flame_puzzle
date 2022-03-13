@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -26,6 +27,11 @@ class MyGame extends FlameGame
     await Flame.images.loadAll(ImagePath.all);
 
     FlameAudio.bgm.initialize();
+
+    // do not create a player instance for each sound effect
+    FlameAudio.audioCache = AudioCache(
+        prefix: 'assets/audio/',
+        fixedPlayer: AudioPlayer(mode: PlayerMode.LOW_LATENCY));
     await FlameAudio.audioCache.load(AudioPath.panel);
 
     _currentScene = TitleScene(true, stateChangeCallback);
