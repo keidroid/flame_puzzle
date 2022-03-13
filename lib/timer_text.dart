@@ -6,11 +6,10 @@ import 'constants.dart';
 class TimerText extends PositionComponent {
   static const double maxSeconds = 3599.99;
 
-  bool isPLaying = false;
-
   late TextPaint _textPaint;
   late TextPaint _textPaint2;
 
+  bool _isPlaying = false;
   double _totalSeconds = 0;
 
   TimerText() {
@@ -20,7 +19,7 @@ class TimerText extends PositionComponent {
 
   @override
   void update(double dt) {
-    if (!isPLaying) {
+    if (!_isPlaying) {
       return;
     }
     _totalSeconds += dt;
@@ -42,10 +41,10 @@ class TimerText extends PositionComponent {
   }
 
   void start() {
-    isPLaying = true;
+    _isPlaying = true;
   }
 
   void stop() {
-    isPLaying = false;
+    _isPlaying = false;
   }
 }
