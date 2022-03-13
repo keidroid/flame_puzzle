@@ -63,12 +63,12 @@ class TitleScene extends GameScene {
 
     switch (gameKeyEvent) {
       case GameKeyEvent.up:
-        break;
       case GameKeyEvent.down:
+        // nothing to do
         break;
       case GameKeyEvent.left:
-        break;
       case GameKeyEvent.right:
+        isSound = !isSound;
         break;
       case GameKeyEvent.enter:
         stateChangeCallback(this, isSound);
