@@ -1,9 +1,13 @@
 # Title
 Retro Slide Puzzle Game
 
+<img src="https://github.com/keidroid/flame_puzzle/blob/main/screenshot/1.png" width="320dp" /> <img src="https://github.com/keidroid/flame_puzzle/blob/main/screenshot/2.png" width="320dp" />
+
 # Links
-- https://github.com/keidroid/flame_puzzle
-- https://flame-puzzle.web.app/
+- Web App: https://flame-puzzle.web.app/
+- Demo Video: https://youtu.be/cr2VNL0Dxow
+- GitHub: https://github.com/keidroid/flame_puzzle
+- DevPost: https://devpost.com/software/tiny-slide-puzzle
 
 # Description
 
@@ -11,11 +15,12 @@ The rules are the same as the original 15 puzzles.
 Tap, mouse and keystrokes are used for input.
 
 Key inputs are as follows
-[Title]
+
+### Title
 - arrow left/arrow right: toggle sound ON/OFF
 - Enter/Space: Go to puzzle screen
 
-[Puzzle]
+### Puzzle
 - arrow up: Move the panel up
 - arrow down: Move the panel down
 - arrow left: Move the panel to the left
