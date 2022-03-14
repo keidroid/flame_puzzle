@@ -12,16 +12,16 @@ import 'timer_text.dart';
 enum PuzzleSceneState { start, playing, clear }
 
 class PuzzleScene extends GameScene {
-  static const int shuffleCount = 10;
-
   final Random _random;
+  final int _shuffleCount;
+
   PuzzleSceneState _state = PuzzleSceneState.start;
 
   late NumberPanels _numberPanels;
   late TimerText _timerText;
 
-  PuzzleScene(
-      this._random, bool isSound, StateChangeCallback stateChangeCallback)
+  PuzzleScene(this._random, this._shuffleCount, bool isSound,
+      StateChangeCallback stateChangeCallback)
       : super(isSound, stateChangeCallback);
 
   @override
@@ -35,7 +35,7 @@ class PuzzleScene extends GameScene {
           ..position = Vector2(132, 96);
     add(bird);
 
-    _numberPanels = NumberPanels(_random, shuffleCount, movePanels)
+    _numberPanels = NumberPanels(_random, _shuffleCount, movePanels)
       ..position = Vector2(8, 8);
     add(_numberPanels);
 

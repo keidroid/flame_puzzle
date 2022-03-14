@@ -16,6 +16,8 @@ import 'title/title_scene.dart';
 
 class MyGame extends FlameGame
     with KeyboardEvents, HasTappables, HasHoverables {
+  static const shuffleCount = 10;
+
   final Random _random = Random();
 
   late GameScene _currentScene;
@@ -42,7 +44,8 @@ class MyGame extends FlameGame
     remove(current);
 
     if (current is TitleScene) {
-      _currentScene = PuzzleScene(_random, isSound, stateChangeCallback);
+      _currentScene =
+          PuzzleScene(_random, shuffleCount, isSound, stateChangeCallback);
       add(_currentScene);
     } else if (current is PuzzleScene) {
       _currentScene = TitleScene(isSound, stateChangeCallback);
