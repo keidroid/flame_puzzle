@@ -23,12 +23,6 @@ class FontPath {
 }
 
 class TextConfig {
-  static const textC0Style = TextStyle(
-    fontSize: 8.0,
-    color: GameColors.c0,
-    fontFamily: FontPath.gameGirl,
-  );
-
   static const textC1Style = TextStyle(
     fontSize: 8.0,
     color: GameColors.c1,
