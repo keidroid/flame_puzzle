@@ -100,9 +100,6 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
   fonts:
-    - family: PressStart2P
+    - family: kongText
       fonts:
-        - asset: assets/1st-sortie.ttf
-    - family: gameGirl
-      fonts:
-        - asset: assets/gamegirl-classic.ttf
+        - asset: assets/kongText/kongtext.ttf

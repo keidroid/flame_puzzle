@@ -21,19 +21,19 @@ class ImagePath {
 }
 
 class FontPath {
-  static const String gameGirl = 'gameGirl';
+  static const String kongText = 'kongText';
 }
 
 class TextConfig {
   static const textC1Style = TextStyle(
     fontSize: 8.0,
     color: GameColors.c1,
-    fontFamily: FontPath.gameGirl,
+    fontFamily: FontPath.kongText,
   );
   static const textC3Style = TextStyle(
     fontSize: 8.0,
     color: GameColors.c3,
-    fontFamily: FontPath.gameGirl,
+    fontFamily: FontPath.kongText,
   );
 }
 

@@ -1,14 +1,16 @@
 import 'dart:math';
 
 import 'package:flame/components.dart';
-import 'package:flame_puzzle/bird.dart';
 import 'package:flutter/material.dart';
 
+import '../bird.dart';
 import '../constants.dart';
 import '../game_scene.dart';
+import 'title_text_button.dart';
 
 class TitleScene extends GameScene {
   final Random _random;
+  late TitleTextButton _soundButton;
 
   TitleScene(
       this._random, bool isSound, StateChangeCallback stateChangeCallback)
@@ -33,33 +35,31 @@ class TitleScene extends GameScene {
     ));
 
     add(TextComponent(
-        text: "#FlutterPuzzleHack",
+        text: "#FLUTTERPUZZLEHACK",
         textRenderer: TextPaint(style: TextConfig.textC1Style))
       ..anchor = Anchor.bottomCenter
       ..position = Vector2(80, 10));
 
+    add(Bird(_random)
+      ..position = Vector2(68, 12)
+      ..birdState = BirdState.stay);
+
+    add(TitleTextButton("GAME START", startPuzzle)
+      ..position = Vector2(80, 60)
+      ..anchor = Anchor.center);
+
+    _addSoundButton(isSound);
+
     add(TextComponent(
-        text: "Slide Puzzle",
-        textRenderer: TextPaint(
-            style: const TextStyle(
-          fontSize: 24.0,
-          color: GameColors.c3,
-          fontFamily: 'PressStart2P',
-        )))
-      ..anchor = Anchor.center
-      ..position = Vector2(68, 40));
-
-    addShadowText("TAP/PRESS ENTER", Vector2(80, 88));
-
-    addShadowText("SOUND <OFF>", Vector2(80, 112));
-
-    addShadowText("PROGRAM BY KEIDROID", Vector2(80, 136));
-    addShadowText("SOUND BY OTOLOGIC", Vector2(80, 144));
-
-    Bird bird = Bird(_random)
-      ..position = Vector2(124, 24)
-      ..birdState = BirdState.stay;
-    add(bird);
+        text: "PROGRAM BY KEIDROID",
+        textRenderer: TextPaint(style: TextConfig.textC3Style))
+      ..anchor = Anchor.bottomCenter
+      ..position = Vector2(80, 136));
+    add(TextComponent(
+        text: "SOUND BY OTOLOGIC",
+        textRenderer: TextPaint(style: TextConfig.textC3Style))
+      ..anchor = Anchor.bottomCenter
+      ..position = Vector2(80, 144));
   }
 
   @override
@@ -76,23 +76,26 @@ class TitleScene extends GameScene {
         toggleSound();
         break;
       case GameKeyEvent.enter:
-        stateChangeCallback(this, isSound);
+        startPuzzle();
         break;
     }
   }
 
-  void toggleSound() {
-    isSound = !isSound;
+  void startPuzzle() {
+    stateChangeCallback(this, isSound);
   }
 
-  void addShadowText(String text, Vector2 position) {
-    add(TextComponent(
-        text: text, textRenderer: TextPaint(style: TextConfig.textC1Style))
-      ..anchor = Anchor.bottomCenter
-      ..position = Vector2(position.x, position.y + 1));
-    add(TextComponent(
-        text: text, textRenderer: TextPaint(style: TextConfig.textC3Style))
-      ..anchor = Anchor.bottomCenter
-      ..position = position);
+  void toggleSound() {
+    isSound = !isSound;
+    remove(_soundButton);
+    _addSoundButton(isSound);
+  }
+
+  void _addSoundButton(bool isSound) {
+    _soundButton =
+        TitleTextButton(isSound ? "SOUND <ON>" : "SOUND <OFF>", toggleSound)
+          ..position = Vector2(80, 104)
+          ..anchor = Anchor.center;
+    add(_soundButton);
   }
 }
