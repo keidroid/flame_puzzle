@@ -1,11 +1,17 @@
+import 'dart:math';
+
 import 'package:flame/components.dart';
+import 'package:flame_puzzle/bird.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
 import '../game_scene.dart';
 
 class TitleScene extends GameScene {
-  TitleScene(bool isSound, StateChangeCallback stateChangeCallback)
+  final Random _random;
+
+  TitleScene(
+      this._random, bool isSound, StateChangeCallback stateChangeCallback)
       : super(isSound, stateChangeCallback);
 
   @override
@@ -50,10 +56,9 @@ class TitleScene extends GameScene {
     addShadowText("PROGRAM BY KEIDROID", Vector2(80, 136));
     addShadowText("SOUND BY OTOLOGIC", Vector2(80, 144));
 
-    SpriteComponent bird =
-        SpriteComponent(sprite: await Sprite.load(ImagePath.bird));
-    bird.position = Vector2(124, 24);
-
+    var bird = Bird(_random)
+      ..position = Vector2(124, 24)
+      ..isFixed = true;
     add(bird);
   }
 

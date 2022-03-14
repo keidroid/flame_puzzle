@@ -3,8 +3,10 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
 
+import '../bird.dart';
 import '../constants.dart';
 import '../game_scene.dart';
+import 'back_button.dart';
 import 'direction.dart';
 import 'number_panels.dart';
 import 'timer_text.dart';
@@ -30,9 +32,7 @@ class PuzzleScene extends GameScene {
 
     add(SpriteComponent(sprite: await Sprite.load(ImagePath.background)));
 
-    SpriteComponent bird =
-        SpriteComponent(sprite: await Sprite.load(ImagePath.bird))
-          ..position = Vector2(132, 96);
+    SpriteComponent bird = Bird(_random)..position = Vector2(132, 96);
     add(bird);
 
     _numberPanels = NumberPanels(_random, _shuffleCount, movePanels)
@@ -41,6 +41,8 @@ class PuzzleScene extends GameScene {
 
     _timerText = TimerText()..position = Vector2(12, 132);
     add(_timerText);
+
+    add(BackButton(finishPuzzle)..position = Vector2(136, 8));
 
     if (isSound) {
       FlameAudio.bgm.play(AudioPath.bgm);

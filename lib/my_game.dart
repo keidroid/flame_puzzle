@@ -36,7 +36,7 @@ class MyGame extends FlameGame
         fixedPlayer: AudioPlayer(mode: PlayerMode.LOW_LATENCY));
     await FlameAudio.audioCache.load(AudioPath.panel);
 
-    _currentScene = TitleScene(true, stateChangeCallback);
+    _currentScene = TitleScene(_random, true, stateChangeCallback);
     add(_currentScene);
   }
 
@@ -48,7 +48,7 @@ class MyGame extends FlameGame
           PuzzleScene(_random, shuffleCount, isSound, stateChangeCallback);
       add(_currentScene);
     } else if (current is PuzzleScene) {
-      _currentScene = TitleScene(isSound, stateChangeCallback);
+      _currentScene = TitleScene(_random, isSound, stateChangeCallback);
       add(_currentScene);
     }
   }

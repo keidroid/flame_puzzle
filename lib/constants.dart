@@ -7,13 +7,17 @@ class AudioPath {
 }
 
 class ImagePath {
+  static const String back = 'back.png';
   static const String background = 'background.png';
   static const String bird = 'bird.png';
+  static const String birdMove = 'bird_move.png';
   static const String panel = 'panel2.png';
 
   static const all = [
+    back,
     background,
     bird,
+    birdMove,
     panel,
   ];
 }
