@@ -18,7 +18,7 @@ class Bird extends SpriteComponent {
   double _deltaTime = 0;
 
   Bird(this._random) {
-    sprite = Sprite(Flame.images.fromCache(ImagePath.birdMove),
+    sprite = Sprite(Flame.images.fromCache(ImagePath.bird),
         srcPosition: Vector2(_count * defaultSize, _state * defaultSize),
         srcSize: Vector2.all(defaultSize));
     size = Vector2.all(defaultSize);
@@ -38,7 +38,7 @@ class Bird extends SpriteComponent {
         _state = (_state + 1 + _random.nextInt(2)) % 3;
       }
       _count = (_count + 1) % 2;
-      sprite = Sprite(Flame.images.fromCache(ImagePath.birdMove),
+      sprite = Sprite(Flame.images.fromCache(ImagePath.bird),
           srcPosition: Vector2(_count * defaultSize, _state * defaultSize),
           srcSize: Vector2.all(defaultSize));
     }
