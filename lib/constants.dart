@@ -47,5 +47,3 @@ class Colors {
   static const Color c2 = Color(0xFF73825C);
   static const Color c3 = Color(0xFF444429);
 }
-
-enum PuzzleState { start, playing, clear }

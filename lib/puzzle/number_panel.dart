@@ -11,11 +11,16 @@ import 'panel_position.dart';
 class NumberPanel extends PositionComponent with Tappable, Hoverable {
   static const int lastIndex = 15;
   static const int panelWidth = 4;
-
   static const double defaultSize = 28;
+  static const double moveEffectDuration = 0.08;
+  static const double tapEffectDuration = 0.08;
+  static const double tappedScale = 0.95;
+  static const double idleScale = 1.0;
 
-  final int label;
-  final Function(int) onTapCallback;
+  final int index;
+  final Function(int) _onTapCallback;
+
+  bool _isFixed = false;
 
   late Sprite sprite;
 
@@ -24,16 +29,28 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
 
   PanelPosition panelPosition = PanelPosition();
 
-  NumberPanel(this.label, this.onTapCallback) {
+  Vector2 get targetPosition => Vector2(size.x * 0.5 + panelPosition.x * size.x,
+      size.y * 0.5 + panelPosition.y * size.y);
+
+  bool get isCorrect =>
+      (panelPosition.x == index % panelWidth) &&
+      (panelPosition.y == index ~/ panelWidth);
+
+  NumberPanel(this.index, this._onTapCallback);
+
+  @override
+  Future<void>? onLoad() async {
+    super.onLoad();
+
     sprite = Sprite(Flame.images.fromCache(ImagePath.panel),
-        srcPosition: Vector2(label % 4 * defaultSize, label ~/ 4 * defaultSize),
+        srcPosition: Vector2(index % panelWidth * defaultSize,
+            index ~/ panelWidth * defaultSize),
         srcSize: Vector2.all(defaultSize));
     size = Vector2.all(defaultSize);
-
-    panelPosition.x = label % panelWidth;
-    panelPosition.y = label ~/ panelWidth;
-
     anchor = Anchor.center;
+
+    panelPosition.x = index % panelWidth;
+    panelPosition.y = index ~/ panelWidth;
   }
 
   @override
@@ -41,7 +58,7 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
 
   @override
   void render(Canvas canvas) {
-    if (label == lastIndex) {
+    if (index == lastIndex) {
       return;
     }
     sprite.render(canvas, size: size);
@@ -49,27 +66,44 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
 
   @override
   bool onTapUp(TapUpInfo info) {
-    tapEffect(false);
-    onTapCallback(label);
+    _playTapEffect(false);
+
+    if (_isFixed) return true;
+    _onTapCallback(index);
     return true;
   }
 
   @override
   bool onTapDown(TapDownInfo info) {
-    tapEffect(true);
+    if (_isFixed) return true;
+    _playTapEffect(true);
     return true;
   }
 
   @override
   bool onTapCancel() {
-    tapEffect(false);
-    onTapCallback(label);
+    _playTapEffect(false);
+
+    if (_isFixed) return true;
+    _onTapCallback(index);
+    return true;
+  }
+
+  @override
+  bool onHoverEnter(PointerHoverInfo info) {
+    if (_isFixed) return true;
+    _playTapEffect(true);
+    return true;
+  }
+
+  @override
+  bool onHoverLeave(PointerHoverInfo info) {
+    _playTapEffect(false);
     return true;
   }
 
   void updatePosition() {
-    position = Vector2(8 + size.x * 0.5 + panelPosition.x * size.x,
-        8 + size.y * 0.5 + panelPosition.y * size.y);
+    position = targetPosition;
   }
 
   void move(Direction direction) {
@@ -86,56 +120,36 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
       case Direction.right:
         panelPosition.x++;
     }
-    moveAnimation();
+    _playMoveEffect();
   }
 
-  void moveAnimation() {
+  void fix() {
+    _isFixed = true;
+  }
+
+  void _playMoveEffect() {
     // set to end current animation
     if (_moveEffect != null) {
       _moveEffect?.controller.setToEnd();
       remove(_moveEffect!);
     }
 
-    Vector2 targetPosition = Vector2(
-        8 + size.x * 0.5 + panelPosition.x * size.x,
-        8 + size.y * 0.5 + panelPosition.y * size.y);
     _moveEffect = MoveEffect.to(targetPosition,
-        EffectController(duration: 0.08, curve: Curves.easeOut));
+        EffectController(duration: moveEffectDuration, curve: Curves.easeOut));
     add(_moveEffect!);
-    tapEffect(false);
+    _playTapEffect(false);
   }
 
-  void tapEffect(bool tapped) {
+  void _playTapEffect(bool tapped) {
     // set to end current animation
     if (_tapEffect != null) {
       _tapEffect?.controller.setToEnd();
       remove(_tapEffect!);
     }
 
-    Vector2 targetScale = tapped ? Vector2(0.95, 0.95) : Vector2(1.0, 1.0);
-    _tapEffect = ScaleEffect.to(
-        targetScale, EffectController(duration: 0.08, curve: Curves.easeOut));
+    Vector2 targetScale = Vector2.all(tapped ? tappedScale : idleScale);
+    _tapEffect = ScaleEffect.to(targetScale,
+        EffectController(duration: tapEffectDuration, curve: Curves.easeOut));
     add(_tapEffect!);
-  }
-
-  bool isSamePosition(NumberPanel panel) {
-    return panelPosition == panel.panelPosition;
-  }
-
-  bool checkCorrectPosition() {
-    return (panelPosition.x == label % panelWidth) &&
-        (panelPosition.y == label ~/ panelWidth);
-  }
-
-  @override
-  bool onHoverEnter(PointerHoverInfo info) {
-    tapEffect(true);
-    return true;
-  }
-
-  @override
-  bool onHoverLeave(PointerHoverInfo info) {
-    tapEffect(false);
-    return true;
   }
 }

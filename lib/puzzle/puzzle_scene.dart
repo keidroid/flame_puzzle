@@ -6,19 +6,22 @@ import 'package:flame_audio/flame_audio.dart';
 import '../constants.dart';
 import '../game_scene.dart';
 import 'direction.dart';
-import 'number_panel.dart';
-import 'panel_position.dart';
+import 'number_panels.dart';
 import 'timer_text.dart';
+
+enum PuzzleSceneState { start, playing, clear }
 
 class PuzzleScene extends GameScene {
   static const int shuffleCount = 10;
 
-  late Random random;
-  late List<NumberPanel> numberPanels = <NumberPanel>[];
+  final Random _random;
+  PuzzleSceneState _state = PuzzleSceneState.start;
+
+  late NumberPanels _numberPanels;
   late TimerText _timerText;
 
   PuzzleScene(
-      this.random, bool isSound, StateChangeCallback stateChangeCallback)
+      this._random, bool isSound, StateChangeCallback stateChangeCallback)
       : super(isSound, stateChangeCallback);
 
   @override
@@ -28,21 +31,16 @@ class PuzzleScene extends GameScene {
     add(SpriteComponent(sprite: await Sprite.load(ImagePath.background)));
 
     SpriteComponent bird =
-        SpriteComponent(sprite: await Sprite.load(ImagePath.bird));
-    bird.position = Vector2(132, 96);
-
+        SpriteComponent(sprite: await Sprite.load(ImagePath.bird))
+          ..position = Vector2(132, 96);
     add(bird);
 
-    for (var i = 0; i < 16; i++) {
-      numberPanels.add(NumberPanel(i, onTapPanel));
-      add(numberPanels[i]);
-    }
+    _numberPanels = NumberPanels(_random, shuffleCount, movePanels)
+      ..position = Vector2(8, 8);
+    add(_numberPanels);
 
     _timerText = TimerText()..position = Vector2(12, 132);
-
     add(_timerText);
-
-    shufflePanels();
 
     if (isSound) {
       FlameAudio.bgm.play(AudioPath.bgm);
@@ -67,76 +65,45 @@ class PuzzleScene extends GameScene {
         movePanel(Direction.right);
         break;
       case GameKeyEvent.enter:
-        if (isSound) {
-          FlameAudio.bgm.stop();
-        }
-        stateChangeCallback(this, isSound);
+        finishPuzzle();
         break;
     }
   }
 
-  void movePanel(Direction direction, {int diff = 1}) {
-    _timerText.start();
-    for (int i = 0; i < diff; i++) {
-      numberPanels.last.move(direction.reverse);
-      numberPanels
-          .firstWhere((element) => element.isSamePosition(numberPanels.last))
-          .move(direction);
+  void movePanel(Direction direction) {
+    movePanels(direction, 1);
+  }
+
+  void movePanels(Direction direction, int count) {
+    if (_state == PuzzleSceneState.start) {
+      _timerText.start();
+      _state = PuzzleSceneState.playing;
     }
-    if (isSound) {
-      FlameAudio.audioCache.play(AudioPath.panel);
+    if (_state == PuzzleSceneState.playing) {
+      _numberPanels.movePanels(direction, count);
+      if (isSound) {
+        FlameAudio.audioCache.play(AudioPath.panel);
+      }
+      checkGameClear();
     }
-    checkGameClear();
   }
 
   void checkGameClear() {
-    if (numberPanels.every((element) => element.checkCorrectPosition())) {
+    if (_numberPanels.isAllCorrects) {
       if (isSound) {
         FlameAudio.bgm.stop();
         FlameAudio.play(AudioPath.clear);
       }
       _timerText.stop();
+      _numberPanels.fixPanels();
+      _state = PuzzleSceneState.clear;
     }
   }
 
-  void onTapPanel(int label) {
-    PanelPosition space = numberPanels.last.panelPosition;
-    PanelPosition tapped = numberPanels
-        .firstWhere((element) => element.label == label)
-        .panelPosition;
-
-    if (space.x == tapped.x) {
-      if (space.y < tapped.y) {
-        movePanel(Direction.up, diff: tapped.y - space.y);
-      } else if (space.y > tapped.y) {
-        movePanel(Direction.down, diff: space.y - tapped.y);
-      }
-    } else if (space.y == tapped.y) {
-      if (space.x < tapped.x) {
-        movePanel(Direction.left, diff: tapped.x - space.x);
-      } else if (space.x > tapped.x) {
-        movePanel(Direction.right, diff: space.x - tapped.x);
-      }
+  void finishPuzzle() {
+    if (isSound) {
+      FlameAudio.bgm.stop();
     }
-  }
-
-  void shufflePanels() {
-    // shuffle count must be even
-    for (int i = 0; i < shuffleCount; i++) {
-      int target1 = random.nextInt(NumberPanel.lastIndex);
-      int target2 =
-          (target1 + (1 + random.nextInt(NumberPanel.lastIndex - 1))) %
-              NumberPanel.lastIndex;
-
-      // shuffle should not be done on the same panel
-      assert(target1 != target2);
-
-      PanelPosition tmp = numberPanels[target1].panelPosition;
-      numberPanels[target1].panelPosition = numberPanels[target2].panelPosition;
-      numberPanels[target2].panelPosition = tmp;
-    }
-    for (var element in numberPanels) {
-      element.updatePosition();
-    }
+    stateChangeCallback(this, isSound);
   }
 }

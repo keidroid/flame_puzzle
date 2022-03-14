@@ -6,15 +6,18 @@ import '../constants.dart';
 class TimerText extends PositionComponent {
   static const double maxSeconds = 3599.99;
 
-  late TextPaint _textPaint;
-  late TextPaint _textPaint2;
-
   bool _isPlaying = false;
   double _totalSeconds = 0;
 
-  TimerText() {
-    _textPaint = TextPaint(style: TextConfig.textC3Style);
-    _textPaint2 = TextPaint(style: TextConfig.textC1Style);
+  late TextPaint _mainTextPaint;
+  late TextPaint _shadowTextPaint;
+
+  @override
+  Future<void>? onLoad() async {
+    super.onLoad();
+
+    _mainTextPaint = TextPaint(style: TextConfig.textC3Style);
+    _shadowTextPaint = TextPaint(style: TextConfig.textC1Style);
   }
 
   @override
@@ -36,8 +39,8 @@ class TimerText extends PositionComponent {
     String secondStr = (_totalSeconds % 60).toStringAsFixed(2).padLeft(5, '0');
 
     String text = "TIME $minuteStr:$secondStr";
-    _textPaint2.render(canvas, text, Vector2(0, 1));
-    _textPaint.render(canvas, text, Vector2(0, 0));
+    _shadowTextPaint.render(canvas, text, Vector2(0, 1));
+    _mainTextPaint.render(canvas, text, Vector2(0, 0));
   }
 
   void start() {
