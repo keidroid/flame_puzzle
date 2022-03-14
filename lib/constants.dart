@@ -25,23 +25,23 @@ class FontPath {
 class TextConfig {
   static const textC0Style = TextStyle(
     fontSize: 8.0,
-    color: Colors.c0,
+    color: GameColors.c0,
     fontFamily: FontPath.gameGirl,
   );
 
   static const textC1Style = TextStyle(
     fontSize: 8.0,
-    color: Colors.c1,
+    color: GameColors.c1,
     fontFamily: FontPath.gameGirl,
   );
   static const textC3Style = TextStyle(
     fontSize: 8.0,
-    color: Colors.c3,
+    color: GameColors.c3,
     fontFamily: FontPath.gameGirl,
   );
 }
 
-class Colors {
+class GameColors {
   static const Color c0 = Color(0xFFE2DFB1);
   static const Color c1 = Color(0xFFB0B87F);
   static const Color c2 = Color(0xFF73825C);

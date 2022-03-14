@@ -22,7 +22,7 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
 
   bool _isFixed = false;
 
-  late Sprite sprite;
+  late Sprite _sprite;
 
   MoveEffect? _moveEffect;
   ScaleEffect? _tapEffect;
@@ -42,7 +42,7 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
   Future<void>? onLoad() async {
     super.onLoad();
 
-    sprite = Sprite(Flame.images.fromCache(ImagePath.panel),
+    _sprite = Sprite(Flame.images.fromCache(ImagePath.panel),
         srcPosition: Vector2(index % panelWidth * defaultSize,
             index ~/ panelWidth * defaultSize),
         srcSize: Vector2.all(defaultSize));
@@ -61,7 +61,7 @@ class NumberPanel extends PositionComponent with Tappable, Hoverable {
     if (index == lastIndex) {
       return;
     }
-    sprite.render(canvas, size: size);
+    _sprite.render(canvas, size: size);
   }
 
   @override

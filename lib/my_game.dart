@@ -6,19 +6,19 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_audio/flame_audio.dart';
-import 'package:flame_puzzle/constants.dart';
-import 'package:flame_puzzle/title/title_scene.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'constants.dart';
 import 'game_scene.dart';
 import 'puzzle/puzzle_scene.dart';
+import 'title/title_scene.dart';
 
-@mustCallSuper
 class MyGame extends FlameGame
     with KeyboardEvents, HasTappables, HasHoverables {
+  final Random _random = Random();
+
   late GameScene _currentScene;
-  Random random = Random();
 
   @override
   Future<void> onLoad() async {
@@ -35,7 +35,6 @@ class MyGame extends FlameGame
     await FlameAudio.audioCache.load(AudioPath.panel);
 
     _currentScene = TitleScene(true, stateChangeCallback);
-
     add(_currentScene);
   }
 
@@ -43,7 +42,7 @@ class MyGame extends FlameGame
     remove(current);
 
     if (current is TitleScene) {
-      _currentScene = PuzzleScene(random, isSound, stateChangeCallback);
+      _currentScene = PuzzleScene(_random, isSound, stateChangeCallback);
       add(_currentScene);
     } else if (current is PuzzleScene) {
       _currentScene = TitleScene(isSound, stateChangeCallback);

@@ -1,5 +1,5 @@
 import 'package:flame/components.dart';
-import 'package:flutter/painting.dart';
+import 'package:flutter/material.dart';
 
 import '../constants.dart';
 import '../game_scene.dart';
@@ -15,14 +15,14 @@ class TitleScene extends GameScene {
     add(RectangleComponent(
       size: Vector2(160, 144),
       paint: Paint()
-        ..color = Colors.c0
+        ..color = GameColors.c0
         ..style = PaintingStyle.fill,
     ));
 
     add(RectangleComponent(
       size: Vector2(160, 10),
       paint: Paint()
-        ..color = Colors.c3
+        ..color = GameColors.c3
         ..style = PaintingStyle.fill,
     ));
 
@@ -37,7 +37,7 @@ class TitleScene extends GameScene {
         textRenderer: TextPaint(
             style: const TextStyle(
           fontSize: 24.0,
-          color: Colors.c3,
+          color: GameColors.c3,
           fontFamily: 'PressStart2P',
         )))
       ..anchor = Anchor.center
