@@ -5,6 +5,8 @@ import 'package:flame/flame.dart';
 
 import 'constants.dart';
 
+enum BirdState { stay, random, good }
+
 class Bird extends SpriteComponent {
   static const double defaultSize = 24;
 
@@ -13,7 +15,7 @@ class Bird extends SpriteComponent {
   int _stateChangeCount = 0;
   int _count = 0;
 
-  bool isFixed = false;
+  BirdState birdState = BirdState.random;
 
   double _deltaTime = 0;
 
@@ -26,16 +28,21 @@ class Bird extends SpriteComponent {
 
   @override
   void update(double dt) {
-    if (isFixed) return;
+    if (birdState == BirdState.stay) return;
     _deltaTime += dt;
 
     // moderately random
     if (_deltaTime > 0.5) {
       _deltaTime -= 0.5;
-      _stateChangeCount++;
-      if (_stateChangeCount > 9) {
-        _stateChangeCount = 0;
-        _state = (_state + 1 + _random.nextInt(2)) % 3;
+
+      if (birdState == BirdState.good) {
+        _state = 3;
+      } else {
+        _stateChangeCount++;
+        if (_stateChangeCount > 9) {
+          _stateChangeCount = 0;
+          _state = (_state + 1 + _random.nextInt(2)) % 3;
+        }
       }
       _count = (_count + 1) % 2;
       sprite = Sprite(Flame.images.fromCache(ImagePath.bird),

@@ -21,6 +21,7 @@ class PuzzleScene extends GameScene {
 
   late NumberPanels _numberPanels;
   late TimerText _timerText;
+  late Bird _bird;
 
   PuzzleScene(this._random, this._shuffleCount, bool isSound,
       StateChangeCallback stateChangeCallback)
@@ -32,8 +33,8 @@ class PuzzleScene extends GameScene {
 
     add(SpriteComponent(sprite: await Sprite.load(ImagePath.background)));
 
-    SpriteComponent bird = Bird(_random)..position = Vector2(132, 96);
-    add(bird);
+    _bird = Bird(_random)..position = Vector2(132, 96);
+    add(_bird);
 
     _numberPanels = NumberPanels(_random, _shuffleCount, movePanels)
       ..position = Vector2(8, 8);
@@ -98,6 +99,7 @@ class PuzzleScene extends GameScene {
       }
       _timerText.stop();
       _numberPanels.fixPanels();
+      _bird.birdState = BirdState.good;
       _state = PuzzleSceneState.clear;
     }
   }

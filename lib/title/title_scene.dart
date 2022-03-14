@@ -56,9 +56,9 @@ class TitleScene extends GameScene {
     addShadowText("PROGRAM BY KEIDROID", Vector2(80, 136));
     addShadowText("SOUND BY OTOLOGIC", Vector2(80, 144));
 
-    var bird = Bird(_random)
+    Bird bird = Bird(_random)
       ..position = Vector2(124, 24)
-      ..isFixed = true;
+      ..birdState = BirdState.stay;
     add(bird);
   }
 
